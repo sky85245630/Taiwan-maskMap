@@ -28,7 +28,7 @@
                     {{ aa.areaName }}
                   </option>
                 </select> -->
-                <select id="area" class="form-control" v-if="select.city.length" v-model="select.area" @change="updateSelect">
+                <select id="area" class="form-control" v-if="select.city.length" v-model="select.area" @change="updateSelect()">
                 <option value="">請選擇</option> 
                 <option :value="area.AreaName" v-for="area in CityName.find((city) => city.CityName === select.city).AreaList"
                   :key="area.AreaName">
