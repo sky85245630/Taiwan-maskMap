@@ -9,7 +9,7 @@
                 >縣市</label
               >
               <div class="flex-fill">
-                <select id="cityName" class="form-control" v-model="select.city" @change="removeMarker(),updateMap()"> 
+                <select id="cityName" class="form-control" v-model="select.city" @change="removeMarker(),updateMap(),select.area=''"> 
                   <option value="">請選擇</option> 
                   <option :value="city.CityName" v-for="city in CityName" :key="city.CityName">
                     {{ city.CityName }}  
@@ -22,9 +22,19 @@
                 >地區</label
               >
               <div class="flex-fill">
-                <select id="area" class="form-control">
-                  <option value="">-- Select One --</option>
-                </select>
+                <!-- <select id="area" class="form-control" v-if="select.city.length" v-model="select.area" @change="updateSelect">
+                  <option value="">請選擇</option> 
+                  <option :value="aa.areaName" v-for="aa in CityName.find((city) => city.CityName === select.city).AreaList" :key="aa.areaName">
+                    {{ aa.areaName }}
+                  </option>
+                </select> -->
+                <select id="area" class="form-control" v-if="select.city.length" v-model="select.area" @change="updateSelect">
+                <option value="">請選擇</option> 
+                <option :value="a.AreaName" v-for="a in CityName.find((city) => city.CityName === select.city).AreaList"
+                  :key="a.AreaName">
+                  {{ a.AreaName }}
+                </option>
+              </select>
               </div>
             </div>
             <p class="mb-0 small text-muted text-right">
@@ -83,7 +93,8 @@ export default {
     data: [],
     CityName,
     select:{
-      city:'臺北市'
+      city:'臺北市',
+      area:'大安區'
     }
   }),
   components: {
@@ -111,6 +122,20 @@ export default {
     },
     penTo(pharmacy) {
       const { properties, geometry } = pharmacy;
+      osm.penTo(geometry.coordinates[0], geometry.coordinates[1], properties);
+    },
+    // updateSelect(){
+    //   this.removeMarker();
+    //   this.updateMap();
+    //   const pharmacy = this.data.find(item => item.properties.towm === this.select.area);
+    //   const { properties, geometry } = pharmacy;
+    //   osm.penTo(geometry.coordinates[0], geometry.coordinates[1], properties);
+    // }
+    updateSelect() {
+      this.removeMarker();
+      this.updateMap();
+      const pharmacy = this.data.find(item => item.properties.town === this.select.area);
+      const { geometry, properties } = pharmacy;
       osm.penTo(geometry.coordinates[0], geometry.coordinates[1], properties);
     },
   },
