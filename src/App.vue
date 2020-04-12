@@ -9,7 +9,7 @@
                 >縣市</label
               >
               <div class="flex-fill">
-                <select id="cityName" class="form-control" v-model="select.city">
+                <select id="cityName" class="form-control" v-model="select.city" @change="updateMap()"> 
                   <option value="">請選擇</option> 
                   <option :value="city.CityName" v-for="city in CityName" :key="city.CityName">
                     {{ city.CityName }}  
@@ -84,7 +84,10 @@ export default {
       const pharmacies = this.data.filter((pharmacy)=>(pharmacy.properties.county === this.select.city));
       // console.log(pharmacy)
       pharmacies.forEach((pharmacy) => {
-        L.marker([pharmacy.geometry.coordinates[1],pharmacy.geometry.coordinates[0]]).addTo(osmMap)
+        L.marker([pharmacy.geometry.coordinates[1],pharmacy.geometry.coordinates[0]]).addTo(osmMap).bindPopup(`<strong class="pharmacyName">藥局名稱：${pharmacy.properties.name}</strong><br>
+        <div class="pharmacyDes">電話：${pharmacy.properties.phone}<br>位置：${pharmacy.properties.address}<br>
+        成人口罩：<strong>${pharmacy.properties.mask_adult}</strong><br>兒童口罩：<strong>${pharmacy.properties.mask_child}</strong><br>最後更新時間：${pharmacy.properties.updated}</div>
+        `)
       })
     }
   },
@@ -127,5 +130,12 @@ export default {
   a {
     cursor: pointer;
   }
+}
+.pharmacyName{
+  font-size: 16px;
+}
+
+.pharmacyDes{
+  font-size: 14px;
 }
 </style>
