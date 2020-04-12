@@ -79,7 +79,15 @@ export default {
   components: {
     // HelloWorld
   },
-  
+  methods:{
+    updateMap(){
+      const pharmacies = this.data.filter((pharmacy)=>(pharmacy.properties.county === this.select.city));
+      // console.log(pharmacy)
+      pharmacies.forEach((pharmacy) => {
+        L.marker([pharmacy.geometry.coordinates[1],pharmacy.geometry.coordinates[0]]).addTo(osmMap)
+      })
+    }
+  },
   mounted() {
     const url =
       "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json";
@@ -87,6 +95,7 @@ export default {
     this.$http.get(url).then(response => {
       console.log(response.data);
       this.data = response.data.features;
+      this.updateMap()
     });
     osmMap = L.map("map", {
       center: [25.03, 121.55],
