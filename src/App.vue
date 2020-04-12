@@ -79,6 +79,7 @@ export default {
   components: {
     // HelloWorld
   },
+  
   mounted() {
     const url =
       "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json";
@@ -96,6 +97,8 @@ export default {
       attribution:
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
     }).addTo(osmMap);
+
+    L.marker([25.03, 121.55]).addTo(osmMap);
   }
 };
 </script>
