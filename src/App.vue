@@ -28,7 +28,7 @@
               </div>
             </div>
             <p class="mb-0 small text-muted text-right">
-              請先選擇區域查看（綠色表示還有口罩）
+              <!-- 請先選擇區域查看（綠色表示還有口罩) -->
             </p>
           </div>
           <ul class="list-group">
