@@ -165,6 +165,7 @@ export default {
 
 <style lang="scss">
 @import "bootstrap/scss/bootstrap";
+// @import "leaflet/dist/leaflet";
 
 #map {
   height: 100vh;
@@ -186,4 +187,6 @@ export default {
 .pharmacyDes{
   font-size: 14px;
 }
+
+
 </style>
