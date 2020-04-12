@@ -9,7 +9,7 @@
                 >縣市</label
               >
               <div class="flex-fill">
-                <select id="cityName" class="form-control" v-model="select.city" @change="updateMap()"> 
+                <select id="cityName" class="form-control" v-model="select.city" @change="removeMarker(),updateMap()"> 
                   <option value="">請選擇</option> 
                   <option :value="city.CityName" v-for="city in CityName" :key="city.CityName">
                     {{ city.CityName }}  
@@ -88,6 +88,13 @@ export default {
         <div class="pharmacyDes">電話：${pharmacy.properties.phone}<br>位置：${pharmacy.properties.address}<br>
         成人口罩：<strong>${pharmacy.properties.mask_adult}</strong><br>兒童口罩：<strong>${pharmacy.properties.mask_child}</strong><br>最後更新時間：${pharmacy.properties.updated}</div>
         `)
+      })
+    },
+    removeMarker(){
+      osmMap.eachLayer((layer) => {
+        if(layer instanceof L.Marker){
+          osmMap.removeLayer(layer);
+        } 
       })
     }
   },
