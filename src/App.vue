@@ -9,7 +9,12 @@
                 >縣市</label
               >
               <div class="flex-fill">
-                <select id="cityName" class="form-control"> </select>
+                <select id="cityName" class="form-control" v-model="select.city">
+                  <option value="">請選擇</option> 
+                  <option :value="city.CityName" v-for="city in CityName" :key="city.CityName">
+                    {{ city.CityName }}  
+                  </option> 
+                 </select>
               </div>
             </div>
             <div class="form-group d-flex">
@@ -58,13 +63,18 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import "bootstrap/dist/js/bootstrap";
 import L from "leaflet";
+import CityName from './assets/cityName.json'
 
 let osmMap = {};
 
 export default {
   name: "App",
   data: () => ({
-    data: {}
+    data: [],
+    CityName,
+    select:{
+      city:'臺北市'
+    }
   }),
   components: {
     // HelloWorld
