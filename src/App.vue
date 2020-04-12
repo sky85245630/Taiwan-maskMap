@@ -67,6 +67,16 @@ import CityName from './assets/cityName.json'
 
 let osmMap = {};
 
+
+const osm = {
+  penTo(x, y, item) {
+    osmMap.panTo(new L.LatLng(y, x));
+    L.marker([y, x]).addTo(osmMap).bindPopup(`<strong class="pharmacyName">藥局名稱：${item.name}</strong><br>
+        <div class="pharmacyDes">電話：${item.phone}<br>位置：${item.address}<br>
+        成人口罩：<strong>${item.mask_adult}</strong><br>兒童口罩：<strong>${item.mask_child}</strong><br>最後更新時間：${item.updated}</div>`).openPopup();
+  }
+}
+
 export default {
   name: "App",
   data: () => ({
@@ -84,11 +94,13 @@ export default {
       const pharmacies = this.data.filter((pharmacy)=>(pharmacy.properties.county === this.select.city));
       // console.log(pharmacy)
       pharmacies.forEach((pharmacy) => {
-        L.marker([pharmacy.geometry.coordinates[1],pharmacy.geometry.coordinates[0]]).addTo(osmMap).bindPopup(`<strong class="pharmacyName">藥局名稱：${pharmacy.properties.name}</strong><br>
+        const { properties, geometry } = pharmacy;
+
+        L.marker([geometry.coordinates[1],geometry.coordinates[0]],properties).addTo(osmMap).bindPopup(`<strong class="pharmacyName">藥局名稱：${pharmacy.properties.name}</strong><br>
         <div class="pharmacyDes">電話：${pharmacy.properties.phone}<br>位置：${pharmacy.properties.address}<br>
-        成人口罩：<strong>${pharmacy.properties.mask_adult}</strong><br>兒童口罩：<strong>${pharmacy.properties.mask_child}</strong><br>最後更新時間：${pharmacy.properties.updated}</div>
-        `)
-      })
+        成人口罩：<strong>${pharmacy.properties.mask_adult}</strong><br>兒童口罩：<strong>${pharmacy.properties.mask_child}</strong><br>最後更新時間：${pharmacy.properties.updated}</div>`)});
+      this.penTo(pharmacies[0]);
+      console.log(pharmacies[0])
     },
     removeMarker(){
       osmMap.eachLayer((layer) => {
@@ -96,7 +108,11 @@ export default {
           osmMap.removeLayer(layer);
         } 
       })
-    }
+    },
+    penTo(pharmacy) {
+      const { properties, geometry } = pharmacy;
+      osm.penTo(geometry.coordinates[0], geometry.coordinates[1], properties);
+    },
   },
   mounted() {
     const url =
