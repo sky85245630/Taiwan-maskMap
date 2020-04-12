@@ -30,9 +30,9 @@
                 </select> -->
                 <select id="area" class="form-control" v-if="select.city.length" v-model="select.area" @change="updateSelect">
                 <option value="">請選擇</option> 
-                <option :value="a.AreaName" v-for="a in CityName.find((city) => city.CityName === select.city).AreaList"
-                  :key="a.AreaName">
-                  {{ a.AreaName }}
+                <option :value="area.AreaName" v-for="area in CityName.find((city) => city.CityName === select.city).AreaList"
+                  :key="area.AreaName">
+                  {{ area.AreaName }}
                 </option>
               </select>
               </div>
@@ -42,19 +42,19 @@
             </p>
           </div>
           <ul class="list-group">
-            <template>
-              <a class="list-group-item text-left">
-                <h3>藥局名稱</h3>
+            <template v-for="(item,key) in data">
+              <a class="list-group-item text-left" :key="key" v-if="item.properties.county === select.city && item.properties.town === select.area" :class="{'highlight':item.properties.mask_adult || item.properties.mask_child}" @click="penTo(item)">
+                <h3>{{item.properties.name}}</h3>
                 <p class="mb-0">
-                  成人口罩：1 | 兒童口罩：2
+                成人口罩：{{item.properties.mask_adult}} | 兒童口罩：{{item.properties.mask_child}}
                 </p>
                 <p class="mb-0">
                   地址：<a
-                    href="https://www.google.com.tw/maps/place/..."
+                    :href="`https://www.google.com.tw/maps/place/${item.properties.address}`"
                     target="_blank"
                     title="Google Map"
                   >
-                    地址</a
+                    {{item.properties.address}}</a
                   >
                 </p>
               </a>
@@ -93,8 +93,8 @@ export default {
     data: [],
     CityName,
     select:{
-      city:'臺北市',
-      area:'大安區'
+      city:'臺南市',
+      area:'六甲區'
     }
   }),
   components: {
