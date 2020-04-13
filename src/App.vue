@@ -71,6 +71,7 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+// import leaflet from './components/leaflet';
 import "bootstrap/dist/js/bootstrap";
 import L from "leaflet";
 import CityName from './assets/cityName.json'
@@ -99,6 +100,7 @@ export default {
   }),
   components: {
     // HelloWorld
+    // leaflet
   },
   methods:{
     updateMap(){
@@ -163,9 +165,15 @@ export default {
 };
 </script>
 
+
+
 <style lang="scss">
 @import "bootstrap/scss/bootstrap";
 // @import "leaflet/dist/leaflet";
+
+body{
+  font-family: "微軟正黑體";
+}
 
 #map {
   height: 100vh;
